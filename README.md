@@ -1,3 +1,8 @@
+<!--
+  Title: Random Extensions
+  Description: A collection of C# extension methods for System.Random class that helps to get random long integers, random dates, random list/array items, and to make random decisions when generating test data.
+  Author: igor-krein
+  -->
 #RandomExtensions
 ##What is it
 This is just a collection of C# extension methods for System.Random class. With their help you easily can:
@@ -12,7 +17,9 @@ These methods are useful for generating data tasks. If you are starting a new pr
 **Note:** if you need some *secure* randomizer, look up elsewhere: these methods are based on standard unsecure methods of System.Random class.
 
 ##How to use them
-In the src/RandomExtensionsExample folder, there is a working example with comments provided. But here are some [edited] code snippets, anyway:
+In the src/RandomExtensionsExample folder, there is a working example with comments provided.
+
+Here are some [edited] code snippets:
 
 ###Date generating
     Random _random = new Random();
@@ -41,4 +48,4 @@ In the src/RandomExtensionsExample folder, there is a working example with comme
     }
 
 ##What if some very useful method is missing
-Simply tell me of you idea or try to write it yourself.
+Simply tell me of you idea or try to write it by yourself.

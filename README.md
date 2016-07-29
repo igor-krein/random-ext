@@ -41,8 +41,8 @@ Here are some [edited] code snippets:
     // 1/3 persons to have a middle name
     if (_random.HitBullsEye(3))
     {
-        // in 3 (8..10) of 10 cases middle name is just a letter (like Jerome K. Jerome)
-        middleName = _random.ThrowDiceToHit(10, 8)
+        // in 3 of 10 cases middle name is just a letter (like Jerome K. Jerome)
+        middleName = _random.IsTrueWithProbability(0.3)
             ? $"{(char)('A' + _random.Next(0, 26))}."
             : _random.NextItem(_firstNames);
     }

@@ -94,14 +94,16 @@ namespace RandomExtensionsTest
         {
             Random random = new Random();
 
-            int diceSideCount = 20, minHit = 5;
+            //int diceSideCount = 20, minHit = 5;
+            double probability = 0.33;
 
             Dictionary<string, int> distribution = new Dictionary<string, int>();
             //List<string> words = new List<string> { "one", "two", "three", "four", "five", "million" };
             string[] words = { "one", "two", "three", "four", "five", "million" };
             for (int i = 0; i < 1000; i++)
             {
-                var randomValue = random.NextItemOrDefault(words, diceSideCount, minHit, "[null]");
+                var randomValue = random.NextItemOrDefault(words, probability, "[null]");
+//                var randomValue = random.NextItemOrDefault(words, diceSideCount, minHit, "[null]");
                 Console.WriteLine($"{randomValue}");
                 if (distribution.ContainsKey(randomValue)) distribution[randomValue]++;
                 else distribution[randomValue] = 1;

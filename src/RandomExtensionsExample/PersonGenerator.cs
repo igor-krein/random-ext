@@ -34,8 +34,8 @@ namespace RandomExtensionsExample
                 // 1/3 persons to have a middle name
                 if (_random.HitBullsEye(3))
                 {
-                    // in 3 (8..10) of 10 cases middle name is just a letter (like Jerome K. Jerome)
-                    middleName = _random.ThrowDiceToHit(10, 8)
+                    // in 3 of 10 cases middle name is just a letter (like Jerome K. Jerome)
+                    middleName = _random.IsTrueWithProbability(0.3)
                         ? $"{(char)('A' + _random.Next(0, 26))}."
                         : _random.NextItem(firstNames);     // Note: middle name here could be equal to first name for simplicity
                 }
@@ -43,9 +43,9 @@ namespace RandomExtensionsExample
                 // Females could have a maiden name...
                 if (sex == Person.PersonSex.Female)
                 {
-                    // ... in 7 (4..10) of 10 cases
+                    // ... in 7 of 10 cases
                     // Note: maiden name here could be equal to last name for simplicity
-                    maidenName = _random.NextItemOrDefault(_lastNames, 10, 4);
+                    maidenName = _random.NextItemOrDefault(_lastNames, 0.7);
                 }
 
                 // Date of birth is a date between 1/1/1800 and a day that was 25 years ago

@@ -90,6 +90,30 @@ namespace RandomExtensions
         }
 
         /// <summary>
+        /// Checks the random value against given probability.
+        /// </summary>
+        /// <remarks>
+        /// Probability ranges between 0 (impossibility) to 1 (certainty).
+        /// </remarks>
+        /// <param name="random">The variable of Random class type.</param>
+        /// <param name="probability">The given probabiliity value.</param>
+        /// <returns>
+        /// Returns true if the generated random double value is greater than
+        /// or equals to the <paramref name="probability"/>. Otherwise
+        /// returns false. The probability of 0 (or less) is always false,
+        /// while the probability of 1 (or more) is always true.
+        /// </returns>
+        /// <seealso cref="ThrowDiceToHit(Random, int, int)">
+        /// ThrowDiceToHit method.
+        /// </seealso>
+        public static bool IsTrueWithProbability(this Random random, double probability)
+        {
+            if (probability >= 1) return true;
+            if (probability <= 0) return false;
+            return random.NextDouble() < probability ? true : false;
+        }
+
+        /// <summary>
         /// "Throws" a virtual dice and returns the value of its uppermost
         /// side.
         /// </summary>
@@ -112,7 +136,7 @@ namespace RandomExtensions
 
         /// <summary>
         /// "Throws" a virtual dice and returns true if the value of its
-        /// uppermost side is greater than or equal the target value.
+        /// uppermost side is greater than or equals to the target value.
         /// </summary>
         /// <remarks>
         /// A virtual dice consists of <paramref name="sideCount"/> number of
@@ -123,8 +147,8 @@ namespace RandomExtensions
         /// <param name="minHit">The target minimum.</param>
         /// <returns>
         /// Returns true if the value of the uppermost side of the thrown dice
-        /// is greater than or equal the <paramref name="minHit"/>. Otherwise
-        /// returns false.
+        /// is greater than or equals to the <paramref name="minHit"/>.
+        /// Otherwise returns false.
         /// </returns>
         /// <seealso cref="ThrowDice(Random, int)">
         /// ThrowDice method.
@@ -169,8 +193,38 @@ namespace RandomExtensions
         }
 
         /// <summary>
+        /// Checks the random value against given probability and returns a
+        /// random element of the list if check is passed.
+        /// </summary>
+        /// <remarks>
+        /// Probability lies within 0 to 1 range.
+        /// </remarks>
+        /// <param name="random">The variable of Random class type.</param>
+        /// <param name="list">The list of some items.</param>
+        /// <typeparam name="T">The element type of the list.</typeparam>
+        /// <param name="probability">The given probabiliity value.</param>
+        /// <param name="failureReturn">The optional value that is returned in
+        /// case of failing to throw the target minimum.</param>
+        /// <returns>
+        /// Returns a random element of the <paramref name="list"/>
+        /// if probability check is passed. Otherwise returns the
+        /// <paramref name="failureReturn"/> (or default) value.
+        /// </returns>
+        /// <seealso cref="IsTrueWithProbability(Random, double)">
+        /// WithProbabilityOf method.
+        /// </seealso>
+        /// <seealso cref="NextItem{T}(Random, IList{T})">
+        /// NextItem method.
+        /// </seealso>
+        public static T NextItemOrDefault<T>(this Random random, IList<T> list, double probability, T failureReturn = default(T))
+        {
+            if (random.IsTrueWithProbability(probability)) return random.NextItem(list);
+            return failureReturn;
+        }
+
+        /// <summary>
         /// "Throws" a virtual dice and returns a random element of the list
-        /// if the result is greater than or equal the target value.
+        /// if the result is greater than or equals to the target value.
         /// </summary>
         /// <remarks>
         /// A virtual dice consists of <paramref name="sideCount"/> number of
@@ -186,7 +240,7 @@ namespace RandomExtensions
         /// <returns>
         /// Returns a random element of the <paramref name="list"/>
         /// if the value of the uppermost side of the thrown dice is greater
-        /// than or equal the <paramref name="minHit"/>. Otherwise returns
+        /// than or equals to the <paramref name="minHit"/>. Otherwise returns
         /// the <paramref name="failureReturn"/> (or default) value.
         /// </returns>
         /// <seealso cref="ThrowDiceToHit(Random, int, int)">
@@ -197,8 +251,8 @@ namespace RandomExtensions
         /// </seealso>
         public static T NextItemOrDefault<T>(this Random random, IList<T> list, int sideCount, int minHit, T failureReturn = default(T))
         {
-            if (!random.ThrowDiceToHit(sideCount, minHit)) return failureReturn;
-            return random.NextItem<T>(list);
+            if (random.ThrowDiceToHit(sideCount, minHit)) return random.NextItem(list);
+            return failureReturn;
         }
     }
 }
